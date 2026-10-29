@@ -17,20 +17,6 @@ export const HTTP_STATUS = {
 // Re-export error config (backward compat)
 export { ERROR_TYPES, DEFAULT_ERROR_MESSAGES, BACKOFF_CONFIG, COOLDOWN_MS } from "./errorConfig.js";
 
-// Cache TTLs (seconds)
-export const CACHE_TTL = {
-  userInfo: 300,    // 5 minutes
-  modelAlias: 3600  // 1 hour
-};
-
-// Memory management config
-export const MEMORY_CONFIG = {
-  sessionTtlMs: 2 * 60 * 60 * 1000,
-  sessionCleanupIntervalMs: 30 * 60 * 1000,
-  dnsCacheTtlMs: 5 * 60 * 1000,
-  proxyDispatchersMaxSize: 20,
-};
-
 // Parse a positive integer env override, falling back to a default.
 function envMs(name, def) {
   const raw = process.env[name];
@@ -38,6 +24,20 @@ function envMs(name, def) {
   const n = parseInt(raw, 10);
   return Number.isFinite(n) && n > 0 ? n : def;
 }
+
+// Cache TTLs (seconds)
+export const CACHE_TTL = {
+  userInfo: 300,    // 5 minutes
+  modelAlias: 3600  // 1 hour
+};
+
+// Memory management config (session stores: sticky routing, continuations, Kiro replay, etc.)
+export const MEMORY_CONFIG = {
+  sessionTtlMs: envMs("SESSION_TTL_MS", 24 * 60 * 60 * 1000),
+  sessionCleanupIntervalMs: 30 * 60 * 1000,
+  dnsCacheTtlMs: 5 * 60 * 1000,
+  proxyDispatchersMaxSize: 20,
+};
 
 function envUrl(name, def) {
   const raw = process.env[name]?.trim();

@@ -36,7 +36,7 @@ describe("prepareClaudeRequest: a tool loop's final tool results", () => {
   it("get the 4th breakpoint, after the last assistant turn's", () => {
     const out = prepareClaudeRequest(loop(), "claude");
     expect(markers(out)).toEqual(["system[0]", "tools[1]", "messages[3].1", "messages[4].1"]);
-    expect(out.messages[4].content[1].cache_control).toEqual({ type: "ephemeral" });
+    expect(out.messages[4].content[1].cache_control).toEqual({ type: "ephemeral", ttl: "1h" });
   });
 
   it("leave a request that ends with a typed message as it was", () => {
