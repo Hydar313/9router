@@ -266,8 +266,8 @@ describe("handleChatCore Headroom diagnostics", () => {
     const expected = structuredClone(messages);
     expected[0].content[0].text = "short";
     expected[2].content[0].content[0].text = "short";
-    expected[1].content[0].cache_control = { type: "ephemeral" };
-    expected[2].content[0].cache_control = { type: "ephemeral" };
+    expected[1].content[0].cache_control = { type: "ephemeral", ttl: "1h" };
+    expected[2].content[0].cache_control = { type: "ephemeral", ttl: "1h" };
     global.fetch = vi.fn(async (_url, init) => {
       const payload = JSON.parse(init.body);
       return Response.json({
